@@ -1,16 +1,6 @@
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code-of-conduct.md) [![Build Status](https://travis-ci.org/elliotjreed/:package_name.svg?branch=master)](https://travis-ci.org/elliotjreed/:package_name) [![Coverage Status](https://coveralls.io/repos/github/elliotjreed/:package_name/badge.svg?branch=master)](https://coveralls.io/github/elliotjreed/:package_name?branch=master)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code-of-conduct.md) [![Build Status](https://travis-ci.org/elliotjreed/haveibeenpwned-filter-php.svg?branch=master)](https://travis-ci.org/elliotjreed/haveibeenpwned-filter-php) [![Coverage Status](https://coveralls.io/repos/github/elliotjreed/haveibeenpwned-filter-php/badge.svg?branch=master)](https://coveralls.io/github/elliotjreed/haveibeenpwned-filter-php?branch=master)
 
-**This is a template. To use it, clone this repository or select "Use this template" from [github.com/elliotjreed/php-package-template](https://github.com/elliotjreed/php-package-template) and run:**
-
-```bash
-bash ./setup.sh
-```
-
-![Gif image demonstration of the setup process](demo.gif "Demonstration of the setup process")
-
-**The following instructions and information are related to the project after the [setup](setup.sh) script has been run (they will throw errors if run before the [setup](setup.sh) has been run).**
-
-# :package_name
+# haveibeenpwned-filter-php
 
 ## Getting Started
 

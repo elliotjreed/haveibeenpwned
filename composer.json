@@ -1,33 +1,35 @@
 {
-  "name": ":username/:package_name",
-  "description": ":package_description",
+  "name": "elliotjreed/haveibeenpwned-filter-php",
+  "description": "PHP",
   "keywords": [
-    ":username",
-    ":package_name"
+    "elliotjreed",
+    "haveibeenpwned-filter-php"
   ],
   "license": "MIT",
   "type": "project",
   "authors": [
     {
-      "name": ":author_name",
-      "email": ":author_email",
-      "homepage": ":author_website",
+      "name": "Elliot Reed",
+      "email": "haveibeenpwned-filter-php@elliotjreed.com",
+      "homepage": "https://www.elliotjreed.com",
       "role": "Developer"
     }
   ],
-  "homepage": "https://github.com/:username/:package_name",
+  "homepage": "https://github.com/elliotjreed/haveibeenpwned-filter-php",
   "autoload": {
     "psr-4": {
-      ":namespace\\": "src/:namespace/"
+      "ElliotJReed\\HaveIBeenPwned\\": "src/ElliotJReed/HaveIBeenPwned/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\:namespace\\": "tests/:namespace/"
+      "Tests\\ElliotJReed\\HaveIBeenPwned\\": "tests/ElliotJReed/HaveIBeenPwned"
     }
   },
   "require": {
-    "php": "^7.4"
+    "php": "^7.4",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^6.5"
   },
   "require-dev": {
     "ext-ast": "*",
@@ -35,7 +37,7 @@
     "phan/phan": "^2.4",
     "php-coveralls/php-coveralls": "^2.2",
     "phpmd/phpmd": "^2.8",
-    "phpunit/phpunit": "^8.5",
+    "phpunit/phpunit": "^9.0",
     "roave/security-advisories": "dev-master",
     "squizlabs/php_codesniffer": "^3.5",
     "vimeo/psalm": "^3.8"
