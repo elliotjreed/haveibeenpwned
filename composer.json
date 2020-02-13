@@ -1,0 +1,87 @@
+{
+  "name": ":username/:package_name",
+  "description": ":package_description",
+  "keywords": [
+    ":username",
+    ":package_name"
+  ],
+  "license": "MIT",
+  "type": "project",
+  "authors": [
+    {
+      "name": ":author_name",
+      "email": ":author_email",
+      "homepage": ":author_website",
+      "role": "Developer"
+    }
+  ],
+  "homepage": "https://github.com/:username/:package_name",
+  "autoload": {
+    "psr-4": {
+      ":namespace\\": "src/:namespace/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\:namespace\\": "tests/:namespace/"
+    }
+  },
+  "require": {
+    "php": "^7.4"
+  },
+  "require-dev": {
+    "ext-ast": "*",
+    "infection/infection": "^0.15",
+    "phan/phan": "^2.4",
+    "php-coveralls/php-coveralls": "^2.2",
+    "phpmd/phpmd": "^2.8",
+    "phpunit/phpunit": "^8.5",
+    "roave/security-advisories": "dev-master",
+    "squizlabs/php_codesniffer": "^3.5",
+    "vimeo/psalm": "^3.8"
+  },
+  "scripts": {
+    "setup": [
+      "@phan:init",
+      "@psalm:init"
+    ],
+    "static-analysis": [
+      "@phan",
+      "@psalm"
+    ],
+    "mutation": [
+      "@infection"
+    ],
+    "test": [
+      "@phpunit:coverage",
+      "@static-analysis",
+      "@mutation",
+      "@phpcs"
+    ],
+    "travis": [
+      "@phpunit:travis",
+      "@static-analysis",
+      "@phpcs"
+    ],
+    "phpunit": "vendor/bin/phpunit -c phpunit.xml",
+    "phpunit:debug": "vendor/bin/phpunit --stop-on-failure -c phpunit.xml",
+    "phpunit:coverage": "vendor/bin/phpunit -c phpunit.xml --coverage-html ./coverage --coverage-text",
+    "phpunit:travis": "vendor/bin/phpunit -c phpunit.xml --coverage-clover ./build/logs/clover.xml",
+    "phpcs": "vendor/bin/phpcs --standard=ruleset.xml",
+    "phpcs:fix": "vendor/bin/phpcbf --standard=ruleset.xml",
+    "phan": "PHAN_DISABLE_XDEBUG_WARN=1 vendor/bin/phan",
+    "phan:init": "vendor/bin/phan --init --init-level=1",
+    "psalm": "vendor/bin/psalm",
+    "psalm:init": "vendor/bin/psalm --init src 1",
+    "infection": "vendor/bin/infection --ignore-msi-with-no-mutations --min-covered-msi=100 --min-msi=100",
+    "phpmd" : "./vendor/bin/phpmd src,tests ansi cleancode,codesize,controversial,design,naming,unusedcode"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "classmap-authoritative": true,
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  }
+}
