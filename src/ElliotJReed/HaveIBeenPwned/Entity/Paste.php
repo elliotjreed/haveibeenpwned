@@ -10,22 +10,15 @@ final class Paste
 {
     private string $source;
     private string $id;
-    private string $title;
+    private ?string $title = null;
     private DateTime $date;
     private int $emailCount;
 
-    /**
-     * @return string
-     */
     public function getSource(): string
     {
         return $this->source;
     }
 
-    /**
-     * @param string $source
-     * @return Paste
-     */
     public function setSource(string $source): Paste
     {
         $this->source = $source;
@@ -33,18 +26,11 @@ final class Paste
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return Paste
-     */
     public function setId(string $id): Paste
     {
         $this->id = $id;
@@ -52,37 +38,23 @@ final class Paste
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return Paste
-     */
-    public function setTitle(string $title): Paste
+    public function setTitle(?string $title): Paste
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getDate(): DateTime
     {
         return $this->date;
     }
 
-    /**
-     * @param DateTime $date
-     * @return Paste
-     */
     public function setDate(DateTime $date): Paste
     {
         $this->date = $date;
@@ -90,18 +62,11 @@ final class Paste
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getEmailCount(): int
     {
         return $this->emailCount;
     }
 
-    /**
-     * @param int $emailCount
-     * @return Paste
-     */
     public function setEmailCount(int $emailCount): Paste
     {
         $this->emailCount = $emailCount;

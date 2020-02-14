@@ -23,7 +23,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\ElliotJReed\\HaveIBeenPwned\\": "tests/ElliotJReed/HaveIBeenPwned"
+      "Tests\\ElliotJReed\\HaveIBeenPwned\\": "tests/ElliotJReed/HaveIBeenPwned/"
     }
   },
   "require": {

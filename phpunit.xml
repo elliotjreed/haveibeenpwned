@@ -2,7 +2,7 @@
 <phpunit bootstrap="vendor/autoload.php" backupGlobals="false" colors="true">
     <testsuites>
         <testsuite name="all">
-            <directory>./tests/ElliotJReed/</directory>
+            <directory>./tests/ElliotJReed/HaveIBeenPwned</directory>
         </testsuite>
     </testsuites>
     <filter>
