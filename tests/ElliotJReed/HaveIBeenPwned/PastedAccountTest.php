@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Tests\ElliotJReed\HaveIBeenPwned;
 
 use DateTime;
-use ElliotJReed\HaveIBeenPwned\Pastes;
+use ElliotJReed\HaveIBeenPwned\PastedAccount;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
-final class PastesTest extends TestCase
+final class PastedAccountTest extends TestCase
 {
     public function testItReturnsEmptyArrayIfNoPastes(): void
     {
@@ -22,16 +22,38 @@ final class PastesTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $pastes = (new Pastes($client, 'fake-hibn-api-key'))->all('email@example.com');
+        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->all('email@example.com');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
-        $this->assertSame('/api/v3/pasteaccount/email@example.com', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('/api/v3/pasteaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
         $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/pasteaccount/email@example.com', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('/api/v3/pasteaccount/email%40example.com', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
+
+        $this->assertSame([], $pastes);
+    }
+
+    public function testItReturnsEmptyArrayIfFourHundredAndFourResponseReturned(): void
+    {
+        $mock = new MockHandler([
+            new Response(404, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->all('email@example.com');
+
+        $this->assertSame('GET', $mock->getLastRequest()->getMethod());
+        $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
+        $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
+        $this->assertSame('/api/v3/pasteaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/pasteaccount/email%40example.com', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $this->assertSame([], $pastes);
     }
@@ -62,16 +84,16 @@ final class PastesTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $pastes = (new Pastes($client, 'fake-hibn-api-key'))->all('email@example.com');
+        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->all('email@example.com');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
-        $this->assertSame('/api/v3/pasteaccount/email@example.com', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('/api/v3/pasteaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
         $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/pasteaccount/email@example.com', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('/api/v3/pasteaccount/email%40example.com', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $firstPaste = $pastes[0];
         $this->assertSame('Pastebin', $firstPaste->getSource());

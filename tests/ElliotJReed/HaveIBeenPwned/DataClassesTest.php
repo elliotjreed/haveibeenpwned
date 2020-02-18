@@ -32,7 +32,7 @@ final class DataClassesTest extends TestCase
         $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
         $this->assertSame('/api/v3/dataclasses', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $this->assertSame(['Account balances', 'Address book contacts', 'Age groups', 'Ages', 'Apps installed on devices'], $dataClasses);
     }

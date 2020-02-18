@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ElliotJReed\HaveIBeenPwned;
+namespace ElliotJReed\HaveIBeenPwned\Builder;
 
 use DateTime;
 use ElliotJReed\HaveIBeenPwned\Entity\Breach as BreachEntity;
 
-abstract class Breach extends Api
+final class Breach
 {
-    protected function buildBreach(array $breach): BreachEntity
+    public static function build(array $breach): BreachEntity
     {
         return (new BreachEntity())
             ->setName($breach['Name'])

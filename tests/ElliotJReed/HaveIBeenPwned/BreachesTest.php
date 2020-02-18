@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Tests\ElliotJReed\HaveIBeenPwned;
 
 use DateTime;
-use ElliotJReed\HaveIBeenPwned\Site;
+use ElliotJReed\HaveIBeenPwned\Breaches;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
-final class SiteTest extends TestCase
+final class BreachesTest extends TestCase
 {
     public function testItReturnsEmptyArrayIfNoBreaches(): void
     {
@@ -22,7 +22,7 @@ final class SiteTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breaches = (new Site($client, 'fake-hibn-api-key'))->all();
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->all();
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -31,7 +31,29 @@ final class SiteTest extends TestCase
         $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
         $this->assertSame('/api/v3/breaches', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
+
+        $this->assertSame([], $breaches);
+    }
+
+    public function testItReturnsEmptyArrayIfFourHundredAndFourResponse(): void
+    {
+        $mock = new MockHandler([
+            new Response(404, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->all();
+
+        $this->assertSame('GET', $mock->getLastRequest()->getMethod());
+        $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
+        $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
+        $this->assertSame('/api/v3/breaches', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breaches', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $this->assertSame([], $breaches);
     }
@@ -91,7 +113,7 @@ final class SiteTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breaches = (new Site($client, 'fake-hibn-api-key'))->all();
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->all();
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -100,7 +122,7 @@ final class SiteTest extends TestCase
         $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
         $this->assertSame('/api/v3/breaches', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $firstBreach = $breaches[0];
         $this->assertSame('Adobe', $firstBreach->getName());
@@ -145,7 +167,7 @@ final class SiteTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breaches = (new Site($client, 'fake-hibn-api-key'))->byDomain('adobe.com');
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->byDomain('adobe.com');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -154,7 +176,29 @@ final class SiteTest extends TestCase
         $this->assertSame('domain=adobe.com', $mock->getLastRequest()->getUri()->getQuery());
         $this->assertSame('/api/v3/breaches?domain=adobe.com', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
+
+        $this->assertSame([], $breaches);
+    }
+
+    public function testItReturnsEmptyArrayIfFourHundredAndFourResponseForBreachesForWebsite(): void
+    {
+        $mock = new MockHandler([
+            new Response(404, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->byDomain('adobe.com');
+
+        $this->assertSame('GET', $mock->getLastRequest()->getMethod());
+        $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
+        $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
+        $this->assertSame('/api/v3/breaches', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('domain=adobe.com', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breaches?domain=adobe.com', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $this->assertSame([], $breaches);
     }
@@ -194,7 +238,7 @@ final class SiteTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breach = (new Site($client, 'fake-hibn-api-key'))->byDomain('adobe.com')[0];
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->byDomain('adobe.com')[0];
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -203,7 +247,7 @@ final class SiteTest extends TestCase
         $this->assertSame('domain=adobe.com', $mock->getLastRequest()->getUri()->getQuery());
         $this->assertSame('/api/v3/breaches?domain=adobe.com', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $this->assertSame('Adobe', $breach->getName());
         $this->assertSame('Adobe', $breach->getTitle());
@@ -230,16 +274,38 @@ final class SiteTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breach = (new Site($client, 'fake-hibn-api-key'))->byName('Adobe');
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->byName('Adobe');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
-        $this->assertSame('/api/v3/breach/Adobe', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('/api/v3/breach/adobe', $mock->getLastRequest()->getUri()->getPath());
         $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breach/Adobe', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('/api/v3/breach/adobe', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
+
+        $this->assertNull($breach);
+    }
+
+    public function testItReturnsNullIfFourHundredAndFourResponseFoBreachName(): void
+    {
+        $mock = new MockHandler([
+            new Response(404, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->byName('Adobe');
+
+        $this->assertSame('GET', $mock->getLastRequest()->getMethod());
+        $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
+        $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
+        $this->assertSame('/api/v3/breach/adobe', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breach/adobe', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $this->assertNull($breach);
     }
@@ -277,16 +343,16 @@ final class SiteTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breach = (new Site($client, 'fake-hibn-api-key'))->byName('Adobe');
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->byName('Adobe');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
-        $this->assertSame('/api/v3/breach/Adobe', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('/api/v3/breach/adobe', $mock->getLastRequest()->getUri()->getPath());
         $this->assertSame('', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breach/Adobe', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('/api/v3/breach/adobe', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
-        $this->assertSame(['www.elliotjreed.com'], $mock->getLastRequest()->getHeaders()['user-agent']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $this->assertSame('Adobe', $breach->getName());
         $this->assertSame('Adobe', $breach->getTitle());
