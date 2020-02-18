@@ -62,7 +62,6 @@
     ],
     "travis": [
       "@phpunit:travis",
-      "@static-analysis",
       "@phpcs"
     ],
     "phpunit": "vendor/bin/phpunit -c phpunit.xml",
