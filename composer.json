@@ -68,7 +68,7 @@
     "phpunit:debug": "vendor/bin/phpunit --stop-on-failure -c phpunit.xml",
     "phpunit:coverage": "vendor/bin/phpunit -c phpunit.xml --coverage-html ./coverage --coverage-text",
     "phpunit:travis": "vendor/bin/phpunit -c phpunit.xml --coverage-clover ./build/logs/clover.xml",
-    "phpcs": "vendor/bin/phpcs --standard=ruleset.xml",
+    "phpcs": "vendor/bin/phpcs --standard=ruleset.xml --runtime-set ignore_warnings_on_exit true",
     "phpcs:fix": "vendor/bin/phpcbf --standard=ruleset.xml",
     "phan": "PHAN_DISABLE_XDEBUG_WARN=1 vendor/bin/phan",
     "phan:init": "vendor/bin/phan --init --init-level=1",
