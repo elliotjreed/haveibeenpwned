@@ -33,7 +33,7 @@
   },
   "require-dev": {
     "ext-ast": "*",
-    "infection/infection": "^0.15",
+    "infection/infection": "^0.16",
     "phan/phan": "^2.4",
     "php-coveralls/php-coveralls": "^2.2",
     "phpmd/phpmd": "^2.8",
