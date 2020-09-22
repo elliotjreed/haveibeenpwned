@@ -33,14 +33,14 @@
   },
   "require-dev": {
     "ext-ast": "*",
-    "infection/infection": "^0.16",
-    "phan/phan": "^2.4",
+    "infection/infection": "^0.17",
+    "phan/phan": "^3.2",
     "php-coveralls/php-coveralls": "^2.2",
     "phpmd/phpmd": "^2.8",
-    "phpunit/phpunit": "^9.0",
+    "phpunit/phpunit": "^9.3",
     "roave/security-advisories": "dev-master",
     "squizlabs/php_codesniffer": "^3.5",
-    "vimeo/psalm": "^3.9"
+    "vimeo/psalm": "^3.12"
   },
   "scripts": {
     "setup": [
