@@ -29,18 +29,18 @@
   "require": {
     "php": "^7.4",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^6.5"
+    "guzzlehttp/guzzle": "^7.1"
   },
   "require-dev": {
     "ext-ast": "*",
     "infection/infection": "^0.17",
     "phan/phan": "^3.2",
-    "php-coveralls/php-coveralls": "^2.2",
-    "phpmd/phpmd": "^2.8",
-    "phpunit/phpunit": "^9.3",
+    "php-coveralls/php-coveralls": "^2.3",
+    "phpmd/phpmd": "^2.9",
+    "phpunit/phpunit": "^9.4",
     "roave/security-advisories": "dev-master",
     "squizlabs/php_codesniffer": "^3.5",
-    "vimeo/psalm": "^3.12"
+    "vimeo/psalm": "^3.16"
   },
   "scripts": {
     "setup": [
