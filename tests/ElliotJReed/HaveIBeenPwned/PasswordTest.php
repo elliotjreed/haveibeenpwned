@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\ElliotJReed\HaveIBeenPwned;
 
-use DateTime;
-use ElliotJReed\HaveIBeenPwned\Breaches;
 use ElliotJReed\HaveIBeenPwned\Password;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
