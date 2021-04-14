@@ -3,19 +3,19 @@
   "description": "PHP",
   "keywords": [
     "elliotjreed",
-    "haveibeenpwned-filter-php"
+    "haveibeenpwned"
   ],
   "license": "MIT",
-  "type": "project",
+  "type": "library",
   "authors": [
     {
       "name": "Elliot Reed",
-      "email": "haveibeenpwned-filter-php@elliotjreed.com",
+      "email": "haveibeenpwned@elliotjreed.com",
       "homepage": "https://www.elliotjreed.com",
       "role": "Developer"
     }
   ],
-  "homepage": "https://github.com/elliotjreed/haveibeenpwned-filter-php",
+  "homepage": "https://github.com/elliotjreed/haveibeenpwned",
   "autoload": {
     "psr-4": {
       "ElliotJReed\\HaveIBeenPwned\\": "src/ElliotJReed/HaveIBeenPwned/"
