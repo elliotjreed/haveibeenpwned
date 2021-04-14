@@ -8,7 +8,7 @@ class Password extends Api
 {
     private const HIBP_BASE_URI = 'https://api.pwnedpasswords.com';
 
-    public function byPassword(string $password): int
+    public function count(string $password): int
     {
         $hashedPassword = \strtoupper(sha1($password));
         $firstFiveCharacters = \substr($hashedPassword, 0, 5);

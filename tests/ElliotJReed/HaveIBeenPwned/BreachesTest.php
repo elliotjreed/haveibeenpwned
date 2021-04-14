@@ -22,7 +22,7 @@ final class BreachesTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->all();
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->allSources();
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -44,7 +44,7 @@ final class BreachesTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->all();
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->allSources();
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -113,7 +113,7 @@ final class BreachesTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->all();
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->allSources();
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -274,7 +274,7 @@ final class BreachesTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breach = (new Breaches($client, 'fake-hibn-api-key'))->byName('Adobe');
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->bySourceName('Adobe');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -296,7 +296,7 @@ final class BreachesTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breach = (new Breaches($client, 'fake-hibn-api-key'))->byName('Adobe');
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->bySourceName('Adobe');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -343,7 +343,7 @@ final class BreachesTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breach = (new Breaches($client, 'fake-hibn-api-key'))->byName('Adobe');
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->bySourceName('Adobe');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());

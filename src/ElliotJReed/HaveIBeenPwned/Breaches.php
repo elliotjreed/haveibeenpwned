@@ -10,7 +10,7 @@ use ElliotJReed\HaveIBeenPwned\Exception\NotFound;
 
 class Breaches extends Api
 {
-    public function all(): array
+    public function allSources(): array
     {
         $breaches = [];
         try {
@@ -47,7 +47,7 @@ class Breaches extends Api
         return $breaches;
     }
 
-    public function byName(string $siteName): ?BreachEntity
+    public function bySourceName(string $siteName): ?BreachEntity
     {
         try {
             $body = $this->queryBreachApi('/breach/' . $this->encodeUrl($siteName));

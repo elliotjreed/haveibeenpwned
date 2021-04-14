@@ -1,10 +1,126 @@
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code-of-conduct.md) [![Build Status](https://travis-ci.org/elliotjreed/haveibeenpwned-filter-php.svg?branch=master)](https://travis-ci.org/elliotjreed/haveibeenpwned-filter-php) [![Coverage Status](https://coveralls.io/repos/github/elliotjreed/haveibeenpwned-filter-php/badge.svg?branch=master)](https://coveralls.io/github/elliotjreed/haveibeenpwned-filter-php?branch=master)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code-of-conduct.md)
 
-# haveibeenpwned-filter-php
+# Have I Been Pwned PHP
 
-## Getting Started
+## Usage
 
-PHP 7.4 or above and Composer is expected to be installed.
+A Have I Been Pwned API key is required. This can be obtained on a monthly subscription basis or a one-off monthly access charge.
+
+https://haveibeenpwned.com/API/v3#
+
+### Installation
+
+To install this package via [Composer](https://getcomposer.org/):
+
+```bash
+composer require ElliotJReed/haveibeenpwned
+```
+
+### Count of breaches by email address
+
+Return a count of all breaches for a specified email address (`int`).
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$count = (new \ElliotJReed\HaveIBeenPwned\BreachedAccount($guzzle, $apiKey))->count('email@example.com');
+```
+
+### Breaches by email address
+
+Return details of all breaches for a specified email address (`ElliotJReed\HaveIBeenPwned\Entity\Breach[]`).
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$breaches = (new \ElliotJReed\HaveIBeenPwned\BreachedAccount($guzzle, $apiKey))->breaches('email@example.com');
+```
+
+### Breach names by email address
+
+Return the names of the breaches for a specified email address (`string[]`);
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$breachNames = (new \ElliotJReed\HaveIBeenPwned\BreachedAccount($guzzle, $apiKey))->breachNames('email@example.com');
+```
+
+### Count of exposed passwords by password
+
+Return a count of exposed passwords for a specified password (`int`).
+
+Note: This API call DOES NOT send the actual password to the Have I Been Pwned API, see: https://haveibeenpwned.com/API/v3#PwnedPasswords.
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$count = (new \ElliotJReed\HaveIBeenPwned\Password($guzzle, $apiKey))->count('password123');
+```
+
+### Pastes by email address
+
+Return details of a specified email address appearing on "pastes" online (`\ElliotJReed\HaveIBeenPwned\Builder\Paste[]`).
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$pastes = (new \ElliotJReed\HaveIBeenPwned\PastedAccount($guzzle, $apiKey))->pastes('email@example.com');
+```
+
+### Breach sources
+
+Return all breach sources recorded by Have I Been Pwned (`\ElliotJReed\HaveIBeenPwned\Entity\Breach[]`).
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$allBreaches = (new \ElliotJReed\HaveIBeenPwned\Breaches($guzzle, $apiKey))->allSources();
+```
+
+### Breach source by name
+
+Return breach details by source name (`\ElliotJReed\HaveIBeenPwned\Entity\Breach`).
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$breachesBySource = (new \ElliotJReed\HaveIBeenPwned\Breaches($guzzle, $apiKey))->bySourceName('Adobe');
+```
+
+### Breach source by domain
+
+Return breach details by domain name (`\ElliotJReed\HaveIBeenPwned\Entity\Breach`).
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$breachesBySource = (new \ElliotJReed\HaveIBeenPwned\Breaches($guzzle, $apiKey))->byDomain('adobe.com');
+```
+
+### Data classes
+
+Return the data classes used by Have I Been Pwned (`string[]`).
+
+```php
+$guzzle = new \GuzzleHttp\Client();
+$apiKey = 'HIBP-API-KEY';
+
+$haveIBeenPwnedDataClasses = (new \ElliotJReed\HaveIBeenPwned\DataClasses($guzzle, $apiKey))->all();
+```
+
+
+## Development
+
+PHP 7.4 or 8.0 and Composer is expected to be installed.
 
 ### Installing Composer
 
@@ -130,9 +246,7 @@ To run all the tests and report code coverage in Clover XML format (which many C
 
 ```yaml
   script:
-    - composer travis
-  after_success:
-    - travis_retry php vendor/bin/php-coveralls
+    - composer ci
 ```
 
 ## Coding standards

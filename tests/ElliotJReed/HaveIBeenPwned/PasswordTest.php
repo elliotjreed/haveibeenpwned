@@ -27,7 +27,7 @@ final class PasswordTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breaches = (new Password($client, 'fake-hibn-api-key'))->byPassword('a-really-really-secure-correct-horse-battery-staple');
+        $breaches = (new Password($client, 'fake-hibn-api-key'))->count('a-really-really-secure-correct-horse-battery-staple');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -54,7 +54,7 @@ final class PasswordTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $breaches = (new Password($client, 'fake-hibn-api-key'))->byPassword('password123');
+        $breaches = (new Password($client, 'fake-hibn-api-key'))->count('password123');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());

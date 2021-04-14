@@ -9,7 +9,7 @@ use ElliotJReed\HaveIBeenPwned\Exception\NotFound;
 
 class PastedAccount extends Api
 {
-    public function all(string $account): array
+    public function pastes(string $account): array
     {
         $breaches = [];
         try {

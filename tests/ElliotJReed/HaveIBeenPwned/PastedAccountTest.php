@@ -22,7 +22,7 @@ final class PastedAccountTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->all('email@example.com');
+        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->pastes('email@example.com');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -44,7 +44,7 @@ final class PastedAccountTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->all('email@example.com');
+        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->pastes('email@example.com');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
@@ -84,7 +84,7 @@ final class PastedAccountTest extends TestCase
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
 
-        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->all('email@example.com');
+        $pastes = (new PastedAccount($client, 'fake-hibn-api-key'))->pastes('email@example.com');
 
         $this->assertSame('GET', $mock->getLastRequest()->getMethod());
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());

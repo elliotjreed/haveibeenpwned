@@ -1,5 +1,5 @@
 {
-  "name": "elliotjreed/haveibeenpwned-filter-php",
+  "name": "elliotjreed/haveibeenpwned",
   "description": "PHP",
   "keywords": [
     "elliotjreed",
@@ -27,20 +27,18 @@
     }
   },
   "require": {
-    "php": "^7.4",
+    "php": "^7.4|^8.0",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^7.1"
+    "guzzlehttp/guzzle": "^7.3"
   },
   "require-dev": {
-    "ext-ast": "*",
-    "infection/infection": "^0.17",
-    "phan/phan": "^3.2",
-    "php-coveralls/php-coveralls": "^2.3",
+    "infection/infection": "^0.21",
+    "phan/phan": "^4.0",
     "phpmd/phpmd": "^2.9",
-    "phpunit/phpunit": "^9.4",
+    "phpunit/phpunit": "^9.5",
     "roave/security-advisories": "dev-master",
-    "squizlabs/php_codesniffer": "^3.5",
-    "vimeo/psalm": "^3.16"
+    "squizlabs/php_codesniffer": "^3.6",
+    "vimeo/psalm": "^4.7"
   },
   "scripts": {
     "setup": [
@@ -60,14 +58,14 @@
       "@mutation",
       "@phpcs"
     ],
-    "travis": [
-      "@phpunit:travis",
+    "ci": [
+      "@phpunit:ci",
       "@phpcs"
     ],
     "phpunit": "vendor/bin/phpunit -c phpunit.xml",
     "phpunit:debug": "vendor/bin/phpunit --stop-on-failure -c phpunit.xml",
     "phpunit:coverage": "vendor/bin/phpunit -c phpunit.xml --coverage-html ./coverage --coverage-text",
-    "phpunit:travis": "vendor/bin/phpunit -c phpunit.xml --coverage-clover ./build/logs/clover.xml",
+    "phpunit:ci": "vendor/bin/phpunit -c phpunit.xml --coverage-clover ./build/logs/clover.xml",
     "phpcs": "vendor/bin/phpcs --standard=ruleset.xml --runtime-set ignore_warnings_on_exit true",
     "phpcs:fix": "vendor/bin/phpcbf --standard=ruleset.xml",
     "phan": "PHAN_DISABLE_XDEBUG_WARN=1 vendor/bin/phan",
