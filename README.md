@@ -13,7 +13,7 @@ https://haveibeenpwned.com/API/v3#
 To install this package via [Composer](https://getcomposer.org/):
 
 ```bash
-composer require ElliotJReed/haveibeenpwned
+composer require elliotjreed/haveibeenpwned
 ```
 
 ### Count of breaches by email address
