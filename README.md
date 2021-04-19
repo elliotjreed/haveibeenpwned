@@ -16,6 +16,14 @@ To install this package via [Composer](https://getcomposer.org/):
 composer require elliotjreed/haveibeenpwned
 ```
 
+#### HTTP Client
+
+This package requires an HTTP Client such as [Guzzle](https://docs.guzzlephp.org/en/stable/) or [Symfony's HTTP Client](https://symfony.com/doc/current/http_client.html).
+
+It will accept and HTTP client conforming to the [PSR-18 HTTP Client standard](https://www.php-fig.org/psr/psr-18/);
+
+In the following examples [Guzzle](https://docs.guzzlephp.org/en/stable/) is used.
+
 ### Count of breaches by email address
 
 Return a count of all breaches for a specified email address (`int`).

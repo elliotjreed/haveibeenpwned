@@ -11,7 +11,7 @@ use ElliotJReed\HaveIBeenPwned\Exception\ServiceUnavailable;
 use ElliotJReed\HaveIBeenPwned\Exception\TooManyRequests;
 use ElliotJReed\HaveIBeenPwned\Exception\Unauthorised;
 use ElliotJReed\HaveIBeenPwned\Exception\UnknownServerError;
-use GuzzleHttp\ClientInterface;
+use Psr\Http\Client\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\TransferException;
 use Psr\Http\Message\ResponseInterface;
