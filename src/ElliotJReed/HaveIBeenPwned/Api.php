@@ -11,9 +11,9 @@ use ElliotJReed\HaveIBeenPwned\Exception\ServiceUnavailable;
 use ElliotJReed\HaveIBeenPwned\Exception\TooManyRequests;
 use ElliotJReed\HaveIBeenPwned\Exception\Unauthorised;
 use ElliotJReed\HaveIBeenPwned\Exception\UnknownServerError;
-use Psr\Http\Client\ClientInterface;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\TransferException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -35,8 +35,8 @@ abstract class Api
             $response = $this->sendRequest($baseUri . $endPoint)->getBody();
         } catch (RequestException $exception) {
             $this->handleRequestException($exception);
-        } catch (TransferException $exception) {
-            throw new UnknownServerError($exception->getMessage(), $exception->getCode(), $exception->getPrevious());
+        } catch (GuzzleException $exception) {
+            throw new UnknownServerError($exception->getMessage(), (int) $exception->getCode(), $exception->getPrevious());
         }
 
         return $response;
@@ -88,6 +88,6 @@ abstract class Api
             $this->handleNotOkResponse($statusCode);
         }
 
-        throw new UnknownServerError($exception->getMessage(), $exception->getCode(), $exception->getPrevious());
+        throw new UnknownServerError($exception->getMessage(), (int) $exception->getCode(), $exception->getPrevious());
     }
 }

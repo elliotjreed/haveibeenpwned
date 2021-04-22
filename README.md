@@ -4,7 +4,7 @@
 
 ## Usage
 
-A Have I Been Pwned API key is required. This can be obtained on a monthly subscription basis or a one-off monthly access charge.
+A Have I Been Pwned API key is required. This can be obtained on a monthly subscription basis, or a one-off monthly access charge.
 
 https://haveibeenpwned.com/API/v3#
 
@@ -15,14 +15,6 @@ To install this package via [Composer](https://getcomposer.org/):
 ```bash
 composer require elliotjreed/haveibeenpwned
 ```
-
-#### HTTP Client
-
-This package requires an HTTP Client such as [Guzzle](https://docs.guzzlephp.org/en/stable/) or [Symfony's HTTP Client](https://symfony.com/doc/current/http_client.html).
-
-It will accept and HTTP client conforming to the [PSR-18 HTTP Client standard](https://www.php-fig.org/psr/psr-18/);
-
-In the following examples [Guzzle](https://docs.guzzlephp.org/en/stable/) is used.
 
 ### Count of breaches by email address
 
@@ -277,15 +269,15 @@ composer phpcs:fix
 
 ## Built With
 
-  - [PHP](https://secure.php.net/)
-  - [Composer](https://getcomposer.org/)
-  - [PHPUnit](https://phpunit.de/)
-  - [Phan](https://github.com/phan/phan)
-  - [Psalm](https://psalm.dev/)
-  - [PHPMD](https://phpmd.org/)
-  - [Infection](https://infection.github.io/)
-  - [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-  - [GNU Make](https://www.gnu.org/software/make/)
+- [PHP](https://secure.php.net/)
+- [Composer](https://getcomposer.org/)
+- [PHPUnit](https://phpunit.de/)
+- [Phan](https://github.com/phan/phan)
+- [Psalm](https://psalm.dev/)
+- [PHPMD](https://phpmd.org/)
+- [Infection](https://infection.github.io/)
+- [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+- [GNU Make](https://www.gnu.org/software/make/)
 
 ## License
 

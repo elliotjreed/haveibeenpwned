@@ -28,10 +28,9 @@
   "require": {
     "php": "^7.4|^8.0",
     "ext-json": "*",
-    "psr/http-client": "^1.0"
+    "guzzlehttp/guzzle": "^7.0"
   },
   "require-dev": {
-    "guzzlehttp/guzzle": "^7.3",
     "infection/infection": "^0.21",
     "phan/phan": "^4.0",
     "phpmd/phpmd": "^2.9",
