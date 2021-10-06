@@ -19,7 +19,7 @@ final class Paste
         return $this->source;
     }
 
-    public function setSource(string $source): Paste
+    public function setSource(string $source): self
     {
         $this->source = $source;
 
@@ -31,7 +31,7 @@ final class Paste
         return $this->id;
     }
 
-    public function setId(string $id): Paste
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -43,7 +43,7 @@ final class Paste
         return $this->title;
     }
 
-    public function setTitle(?string $title): Paste
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -55,7 +55,7 @@ final class Paste
         return $this->date;
     }
 
-    public function setDate(DateTime $date): Paste
+    public function setDate(DateTime $date): self
     {
         $this->date = $date;
 
@@ -67,7 +67,7 @@ final class Paste
         return $this->emailCount;
     }
 
-    public function setEmailCount(int $emailCount): Paste
+    public function setEmailCount(int $emailCount): self
     {
         $this->emailCount = $emailCount;
 

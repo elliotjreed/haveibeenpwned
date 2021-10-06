@@ -37,5 +37,5 @@ jobs:
       - name: Run PHPUnit tests
         run: php vendor/bin/phpunit -c phpunit.xml --coverage-text=coverage.txt && if [ $(head -9 coverage.txt | tail -3 | cut -d "%" -f1 | sed 's/[^0-9.]//g' | tr -d '\n') != "100.00100.00100.00" ]; then cat coverage.txt; exit 1; fi
 
-      - name: Run PHP Code Sniffer
-        run: php vendor/bin/phpcs -q --report=checkstyle --standard=ruleset.xml --runtime-set ignore_warnings_on_exit true | cs2pr --graceful-warnings
+      - name: Run PHP CS Fixer (Dry Run)
+        run: php vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes --using-cache=no --format=checkstyle | cs2pr --graceful-warnings
