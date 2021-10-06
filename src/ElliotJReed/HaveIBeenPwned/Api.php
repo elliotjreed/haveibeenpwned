@@ -54,7 +54,7 @@ abstract class Api
             'user-agent' => 'hibp-php'
         ]]);
         $statusCode = $response->getStatusCode();
-        if ($statusCode !== 200) {
+        if (200 !== $statusCode) {
             $this->handleNotOkResponse($statusCode);
         }
 

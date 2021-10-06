@@ -22,7 +22,7 @@ class BreachedAccount extends Api
 
             $length = $body->getSize();
             if ($length > 0) {
-                foreach (\json_decode($body->read($length), true, 512, JSON_THROW_ON_ERROR) as $breach) {
+                foreach (\json_decode($body->read($length), true, 512, \JSON_THROW_ON_ERROR) as $breach) {
                     $breaches[] = Breach::build($breach);
                 }
             }
@@ -45,7 +45,7 @@ class BreachedAccount extends Api
 
             $length = $body->getSize();
             if ($length > 0) {
-                foreach (\json_decode($body->read($length), true, 512, JSON_THROW_ON_ERROR) as $breach) {
+                foreach (\json_decode($body->read($length), true, 512, \JSON_THROW_ON_ERROR) as $breach) {
                     $breaches[] = $breach['Name'];
                 }
             }
@@ -68,7 +68,7 @@ class BreachedAccount extends Api
 
             $length = $body->getSize();
             if ($length > 0) {
-                $count = \count(\json_decode($body->read($length), true, 512, JSON_THROW_ON_ERROR));
+                $count = \count(\json_decode($body->read($length), true, 512, \JSON_THROW_ON_ERROR));
             }
         } catch (NotFound $exception) {
         }

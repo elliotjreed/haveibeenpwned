@@ -32,12 +32,13 @@
   },
   "require-dev": {
     "infection/infection": "^0.24",
-    "phan/phan": "^5.1",
-    "phpmd/phpmd": "^2.9",
+    "friendsofphp/php-cs-fixer": "^3.2",
+    "phan/phan": "^5.2",
+    "phpmd/phpmd": "^2.10",
     "phpunit/phpunit": "^9.5",
     "roave/security-advisories": "dev-master",
     "squizlabs/php_codesniffer": "^3.6",
-    "vimeo/psalm": "^4.9"
+    "vimeo/psalm": "^4.10"
   },
   "scripts": {
     "setup": [
@@ -65,8 +66,7 @@
     "phpunit:debug": "vendor/bin/phpunit --stop-on-failure -c phpunit.xml",
     "phpunit:coverage": "vendor/bin/phpunit -c phpunit.xml --coverage-html ./coverage --coverage-text",
     "phpunit:ci": "vendor/bin/phpunit -c phpunit.xml --coverage-clover ./build/logs/clover.xml",
-    "phpcs": "vendor/bin/phpcs --standard=ruleset.xml --runtime-set ignore_warnings_on_exit true",
-    "phpcs:fix": "vendor/bin/phpcbf --standard=ruleset.xml",
+    "phpcs": "vendor/bin/php-cs-fixer fix --allow-risky=yes && vendor/bin/phpcs --standard=ruleset.xml",
     "phan": "PHAN_DISABLE_XDEBUG_WARN=1 vendor/bin/phan",
     "phan:init": "vendor/bin/phan --init --init-level=1",
     "psalm": "vendor/bin/psalm",

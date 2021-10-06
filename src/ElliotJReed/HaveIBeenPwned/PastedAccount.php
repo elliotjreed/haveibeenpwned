@@ -17,7 +17,7 @@ class PastedAccount extends Api
 
             $length = $body->getSize();
             if ($length > 0) {
-                foreach (\json_decode($body->read($length), true, 512, JSON_THROW_ON_ERROR) as $breach) {
+                foreach (\json_decode($body->read($length), true, 512, \JSON_THROW_ON_ERROR) as $breach) {
                     $breaches[] = PasteBuilder::build($breach);
                 }
             }

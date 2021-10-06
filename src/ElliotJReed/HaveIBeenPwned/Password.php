@@ -10,7 +10,7 @@ class Password extends Api
 
     public function count(string $password): int
     {
-        $hashedPassword = \strtoupper(sha1($password));
+        $hashedPassword = \strtoupper(\sha1($password));
         $firstFiveCharacters = \substr($hashedPassword, 0, 5);
         $body = $this->queryBreachApi('/range/' . $firstFiveCharacters, self::HIBP_BASE_URI);
         $hashes = \str_replace("\r\n", \PHP_EOL, $body->read($body->getSize()));

@@ -29,7 +29,7 @@ final class Breach
         return $this->name;
     }
 
-    public function setName(string $name): Breach
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -41,7 +41,7 @@ final class Breach
         return $this->title;
     }
 
-    public function setTitle(string $title): Breach
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -53,7 +53,7 @@ final class Breach
         return $this->domain;
     }
 
-    public function setDomain(string $domain): Breach
+    public function setDomain(string $domain): self
     {
         $this->domain = $domain;
 
@@ -65,7 +65,7 @@ final class Breach
         return $this->breachDate;
     }
 
-    public function setBreachDate(DateTime $breachDate): Breach
+    public function setBreachDate(DateTime $breachDate): self
     {
         $this->breachDate = $breachDate;
 
@@ -77,7 +77,7 @@ final class Breach
         return $this->addedDate;
     }
 
-    public function setAddedDate(DateTime $addedDate): Breach
+    public function setAddedDate(DateTime $addedDate): self
     {
         $this->addedDate = $addedDate;
 
@@ -89,7 +89,7 @@ final class Breach
         return $this->modifiedDate;
     }
 
-    public function setModifiedDate(DateTime $modifiedDate): Breach
+    public function setModifiedDate(DateTime $modifiedDate): self
     {
         $this->modifiedDate = $modifiedDate;
 
@@ -101,7 +101,7 @@ final class Breach
         return $this->pwnCount;
     }
 
-    public function setPwnCount(int $pwnCount): Breach
+    public function setPwnCount(int $pwnCount): self
     {
         $this->pwnCount = $pwnCount;
 
@@ -113,7 +113,7 @@ final class Breach
         return $this->description;
     }
 
-    public function setDescription(string $description): Breach
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -125,7 +125,7 @@ final class Breach
         return $this->dataClasses;
     }
 
-    public function setDataClasses(array $dataClasses): Breach
+    public function setDataClasses(array $dataClasses): self
     {
         $this->dataClasses = $dataClasses;
 
@@ -137,7 +137,7 @@ final class Breach
         return $this->isVerified;
     }
 
-    public function setIsVerified(bool $isVerified): Breach
+    public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
 
@@ -149,7 +149,7 @@ final class Breach
         return $this->isFabricated;
     }
 
-    public function setIsFabricated(bool $isFabricated): Breach
+    public function setIsFabricated(bool $isFabricated): self
     {
         $this->isFabricated = $isFabricated;
 
@@ -161,7 +161,7 @@ final class Breach
         return $this->isSensitive;
     }
 
-    public function setIsSensitive(bool $isSensitive): Breach
+    public function setIsSensitive(bool $isSensitive): self
     {
         $this->isSensitive = $isSensitive;
 
@@ -173,7 +173,7 @@ final class Breach
         return $this->isRetired;
     }
 
-    public function setIsRetired(bool $isRetired): Breach
+    public function setIsRetired(bool $isRetired): self
     {
         $this->isRetired = $isRetired;
 
@@ -185,7 +185,7 @@ final class Breach
         return $this->isSpamList;
     }
 
-    public function setIsSpamList(bool $isSpamList): Breach
+    public function setIsSpamList(bool $isSpamList): self
     {
         $this->isSpamList = $isSpamList;
 
@@ -197,7 +197,7 @@ final class Breach
         return $this->logoPath;
     }
 
-    public function setLogoPath(string $logoPath): Breach
+    public function setLogoPath(string $logoPath): self
     {
         $this->logoPath = $logoPath;
 

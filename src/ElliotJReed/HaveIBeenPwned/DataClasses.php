@@ -10,6 +10,6 @@ class DataClasses extends Api
     {
         $body = $this->queryBreachApi('/dataclasses');
 
-        return \json_decode($body->read($body->getSize()), true, 512, JSON_THROW_ON_ERROR);
+        return \json_decode($body->read($body->getSize()), true, 512, \JSON_THROW_ON_ERROR);
     }
 }
