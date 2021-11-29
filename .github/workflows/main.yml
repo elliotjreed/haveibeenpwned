@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.4', '8.0']
+        php-versions: ['7.4', '8.0', '8.1']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,4 +38,4 @@ jobs:
         run: php vendor/bin/phpunit -c phpunit.xml --coverage-text=coverage.txt && if [ $(head -9 coverage.txt | tail -3 | cut -d "%" -f1 | sed 's/[^0-9.]//g' | tr -d '\n') != "100.00100.00100.00" ]; then cat coverage.txt; exit 1; fi
 
       - name: Run PHP CS Fixer (Dry Run)
-        run: php vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes --using-cache=no --format=checkstyle | cs2pr --graceful-warnings
+        run: PHP_CS_FIXER_IGNORE_ENV=1 php vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes --using-cache=no --format=checkstyle | cs2pr --graceful-warnings
