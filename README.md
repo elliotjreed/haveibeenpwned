@@ -168,32 +168,12 @@ composer phpunit:debug
 
 Static analysis tools can point to potential "weak spots" in your code, and can be useful in identifying unexpected side-effects.
 
-[Phan](https://github.com/phan/phan) and [Psalm](https://psalm.dev/) are configured at their highest levels, meaning false positives are quite likely.
+[Psalm](https://psalm.dev/) is configured at it's highest levels, meaning false positives are quite likely.
 
 All static analysis tests can be run by executing:
 
 ```bash
 composer static-analysis
-```
-
-### Mutation testing
-
-Mutation testing provides an indication as to how "robust" your unit tests are by changing small bits of code (eg. `$x > 1` could be changed to `$x >= 1`) and seeing if your tests still pass - if they do, your tests are likely a bit flaky.
-
-Mutation testing (via [Infection](https://infection.github.io/)) can be run by executing:
-
-```bash
-composer mutation
-```
-
-### Mess detection
-
-Mess detection can look for potential problems such as bugs, suboptimal code, overcomplicated expressions, and unused parameters, method, and properties.
-
-Mess detection (via [PHPMD](https://phpmd.org/)) can be run by executing:
-
-```bash
-composer phpmd
 ```
 
 ## Code formatting
@@ -272,10 +252,7 @@ composer phpcs:fix
 - [PHP](https://secure.php.net/)
 - [Composer](https://getcomposer.org/)
 - [PHPUnit](https://phpunit.de/)
-- [Phan](https://github.com/phan/phan)
 - [Psalm](https://psalm.dev/)
-- [PHPMD](https://phpmd.org/)
-- [Infection](https://infection.github.io/)
 - [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 - [GNU Make](https://www.gnu.org/software/make/)
 
