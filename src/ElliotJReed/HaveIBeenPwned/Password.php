@@ -16,9 +16,11 @@ class Password extends Api
         $hashes = \str_replace("\r\n", \PHP_EOL, $body->read($body->getSize()));
 
         foreach (\explode(\PHP_EOL, $hashes) as $line) {
-            [$hash, $count] = \explode(':', $line);
-            if ($firstFiveCharacters . \strtoupper($hash) === $hashedPassword) {
-                return (int) $count;
+            if (\strpos($line, ':') !== false) {
+                [$hash, $count] = \explode(':', $line);
+                if ($firstFiveCharacters . \strtoupper($hash) === $hashedPassword) {
+                    return (int) $count;
+                }
             }
         }
 
