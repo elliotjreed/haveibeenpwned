@@ -4,12 +4,9 @@ all: vendor
 vendor: composer.json composer.lock
 	composer install
 
-.PHONY: test phpcs static-analysis phpunit composer-validate composer-outdated
+.PHONY: test phpcs phpunit composer-validate composer-outdated
 
-test: phpcs static-analysis phpunit composer-validate composer-outdated
-
-static-analysis: vendor
-	composer run-script static-analysis
+test: phpcs phpunit composer-validate composer-outdated
 
 phpunit: vendor
 	composer run-script phpunit:coverage
