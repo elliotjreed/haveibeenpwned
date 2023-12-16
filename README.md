@@ -2,6 +2,8 @@
 
 # Have I Been Pwned PHP
 
+PHP 8.1 or above is required. For PHP 7.4 to 8.0 please use verison 1.2.x.
+
 ## Usage
 
 A Have I Been Pwned API key is required. This can be obtained on a monthly subscription basis, or a one-off monthly access charge.
