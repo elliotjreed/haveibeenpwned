@@ -6,6 +6,9 @@ namespace ElliotJReed\HaveIBeenPwned;
 
 class DataClasses extends Api
 {
+    public const DATA_CLASS_PASSWORDS = 'Passwords';
+    public const DATA_CLASS_AVATARS = 'Avatars';
+
     public function all(): array
     {
         $body = $this->queryBreachApi('/dataclasses');
