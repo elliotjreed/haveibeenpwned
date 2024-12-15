@@ -2,11 +2,8 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
-
 $finder = (new PhpCsFixer\Finder())
-    ->in(__DIR__)
-    ->exclude('vendor');
+    ->in([__DIR__ . '/src', __DIR__ . '/tests']);
 
 return (new PhpCsFixer\Config())
     ->setRules([
@@ -14,12 +11,14 @@ return (new PhpCsFixer\Config())
         '@PSR12:risky' => true,
         '@Symfony' => true,
         '@Symfony:risky' => true,
-        'trailing_comma_in_multiline' => [],
+        'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => []],
+        'nullable_type_declaration_for_default_null_value' => ['use_nullable_type_declaration' => true],
         'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
+        'global_namespace_import' => ['import_classes' => true, 'import_functions' => false],
         'concat_space' => ['spacing' => 'one'],
         'types_spaces' => ['space' => 'single'],
         'native_function_invocation' => [
-            'include' => [NativeFunctionInvocationFixer::SET_ALL],
+            'include' => ['@all'],
             'scope' => 'all'
         ],
     ])

@@ -2,7 +2,7 @@
 
 # Have I Been Pwned PHP
 
-PHP 8.1 or above is required. For PHP 7.4 to 8.0 please use verison 1.2.x.
+PHP 8.4 or above is required. For PHP 8.1 please use 2.0.0. For PHP 7.4 to 8.0 please use version 1.2.0.
 
 ## Usage
 
