@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\ElliotJReed\HaveIBeenPwned;
 
+use DateTime;
 use ElliotJReed\HaveIBeenPwned\PastedAccount;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -98,14 +99,14 @@ final class PastedAccountTest extends TestCase
         $this->assertSame('Pastebin', $firstPaste->getSource());
         $this->assertSame('8Q0BvKD8', $firstPaste->getId());
         $this->assertSame('syslog', $firstPaste->getTitle());
-        $this->assertEquals(new \DateTime('2014-03-04T19:14:54Z'), $firstPaste->getDate());
+        $this->assertEquals(new DateTime('2014-03-04T19:14:54Z'), $firstPaste->getDate());
         $this->assertSame(139, $firstPaste->getEmailCount());
 
         $secondPaste = $pastes[1];
         $this->assertSame('Pastie', $secondPaste->getSource());
         $this->assertSame('7152479', $secondPaste->getId());
         $this->assertNull($secondPaste->getTitle());
-        $this->assertEquals(new \DateTime('2013-03-28T16:51:10Z'), $secondPaste->getDate());
+        $this->assertEquals(new DateTime('2013-03-28T16:51:10Z'), $secondPaste->getDate());
         $this->assertSame(30, $secondPaste->getEmailCount());
     }
 }

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace ElliotJReed\HaveIBeenPwned\Entity;
 
+use DateTime;
+
 final class Paste
 {
     private string $source;
     private string $id;
     private ?string $title = null;
-    private \DateTime $date;
+    private DateTime $date;
     private int $emailCount;
 
     public function getSource(): string
@@ -48,12 +50,12 @@ final class Paste
         return $this;
     }
 
-    public function getDate(): \DateTime
+    public function getDate(): DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTime $date): self
+    public function setDate(DateTime $date): self
     {
         $this->date = $date;
 

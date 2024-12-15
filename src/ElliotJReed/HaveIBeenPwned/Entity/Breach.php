@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace ElliotJReed\HaveIBeenPwned\Entity;
 
+use DateTime;
+
 final class Breach
 {
     private string $name;
     private string $title;
     private string $domain;
-    private \DateTime $breachDate;
-    private \DateTime $addedDate;
-    private \DateTime $modifiedDate;
+    private DateTime $breachDate;
+    private DateTime $addedDate;
+    private DateTime $modifiedDate;
     private int $pwnCount;
     private string $description;
     private array $dataClasses;
@@ -58,36 +60,36 @@ final class Breach
         return $this;
     }
 
-    public function getBreachDate(): \DateTime
+    public function getBreachDate(): DateTime
     {
         return $this->breachDate;
     }
 
-    public function setBreachDate(\DateTime $breachDate): self
+    public function setBreachDate(DateTime $breachDate): self
     {
         $this->breachDate = $breachDate;
 
         return $this;
     }
 
-    public function getAddedDate(): \DateTime
+    public function getAddedDate(): DateTime
     {
         return $this->addedDate;
     }
 
-    public function setAddedDate(\DateTime $addedDate): self
+    public function setAddedDate(DateTime $addedDate): self
     {
         $this->addedDate = $addedDate;
 
         return $this;
     }
 
-    public function getModifiedDate(): \DateTime
+    public function getModifiedDate(): DateTime
     {
         return $this->modifiedDate;
     }
 
-    public function setModifiedDate(\DateTime $modifiedDate): self
+    public function setModifiedDate(DateTime $modifiedDate): self
     {
         $this->modifiedDate = $modifiedDate;
 

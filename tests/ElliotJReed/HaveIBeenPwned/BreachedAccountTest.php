@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\ElliotJReed\HaveIBeenPwned;
 
+use DateTime;
 use ElliotJReed\HaveIBeenPwned\BreachedAccount;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -125,9 +126,9 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('Adobe', $firstBreach->getName());
         $this->assertSame('Adobe', $firstBreach->getTitle());
         $this->assertSame('adobe.com', $firstBreach->getDomain());
-        $this->assertEquals(new \DateTime('2013-10-04 00:00:00'), $firstBreach->getBreachDate());
-        $this->assertEquals(new \DateTime('2013-12-04T00:00Z'), $firstBreach->getAddedDate());
-        $this->assertEquals(new \DateTime('2013-12-04T00:00Z'), $firstBreach->getModifiedDate());
+        $this->assertEquals(new DateTime('2013-10-04 00:00:00'), $firstBreach->getBreachDate());
+        $this->assertEquals(new DateTime('2013-12-04T00:00Z'), $firstBreach->getAddedDate());
+        $this->assertEquals(new DateTime('2013-12-04T00:00Z'), $firstBreach->getModifiedDate());
         $this->assertSame(152445165, $firstBreach->getPwnCount());
         $this->assertSame('In October 2013...', $firstBreach->getDescription());
         $this->assertSame(['Email addresses', 'Password hints', 'Passwords', 'Usernames'], $firstBreach->getDataClasses());
@@ -142,9 +143,9 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('BattlefieldHeroes', $secondBreach->getName());
         $this->assertSame('Battlefield Heroes', $secondBreach->getTitle());
         $this->assertSame('battlefieldheroes.com', $secondBreach->getDomain());
-        $this->assertEquals(new \DateTime('2011-06-26 00:00:00'), $secondBreach->getBreachDate());
-        $this->assertEquals(new \DateTime('2014-01-23T13:10Z'), $secondBreach->getAddedDate());
-        $this->assertEquals(new \DateTime('2014-01-23T13:10Z'), $secondBreach->getModifiedDate());
+        $this->assertEquals(new DateTime('2011-06-26 00:00:00'), $secondBreach->getBreachDate());
+        $this->assertEquals(new DateTime('2014-01-23T13:10Z'), $secondBreach->getAddedDate());
+        $this->assertEquals(new DateTime('2014-01-23T13:10Z'), $secondBreach->getModifiedDate());
         $this->assertSame(530270, $secondBreach->getPwnCount());
         $this->assertSame('In June 2011...', $secondBreach->getDescription());
         $this->assertSame(['Passwords', 'Usernames'], $secondBreach->getDataClasses());
@@ -226,9 +227,9 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('Adobe', $breach->getName());
         $this->assertSame('Adobe', $breach->getTitle());
         $this->assertSame('adobe.com', $breach->getDomain());
-        $this->assertEquals(new \DateTime('2013-10-04 00:00:00'), $breach->getBreachDate());
-        $this->assertEquals(new \DateTime('2013-12-04T00:00Z'), $breach->getAddedDate());
-        $this->assertEquals(new \DateTime('2013-12-04T00:00Z'), $breach->getModifiedDate());
+        $this->assertEquals(new DateTime('2013-10-04 00:00:00'), $breach->getBreachDate());
+        $this->assertEquals(new DateTime('2013-12-04T00:00Z'), $breach->getAddedDate());
+        $this->assertEquals(new DateTime('2013-12-04T00:00Z'), $breach->getModifiedDate());
         $this->assertSame(152445165, $breach->getPwnCount());
         $this->assertSame('In October 2013...', $breach->getDescription());
         $this->assertSame(['Email addresses', 'Password hints', 'Passwords', 'Usernames'], $breach->getDataClasses());
