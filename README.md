@@ -182,7 +182,7 @@ composer static-analysis
 
 A standard for code style can be important when working in teams, as it means that less time is spent by developers processing what they are reading (as everything will be consistent).
 
-Code format checking (via [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)) can be run by executing:
+Code format checking (via [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)) can be run by executing:
 
 ```bash
 composer phpcs
@@ -255,7 +255,7 @@ composer phpcs:fix
 - [Composer](https://getcomposer.org/)
 - [PHPUnit](https://phpunit.de/)
 - [Psalm](https://psalm.dev/)
-- [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+- [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)
 - [GNU Make](https://www.gnu.org/software/make/)
 
 ## License
