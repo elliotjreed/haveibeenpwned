@@ -75,4 +75,31 @@ class BreachedAccount extends Api
 
         return $count;
     }
+
+    /**
+     * @return \DateTimeInterface|null a \DateTimeInterface or null if the given dataClass did not match
+     */
+    public function lastDataClassBreachDate(string $account, string $dataClass, bool $unverified = true): ?\DateTimeInterface
+    {
+        return array_reduce(
+            $this->breaches($account, $unverified),
+            function (?\DateTimeInterface $carry, \ElliotJReed\HaveIBeenPwned\Entity\Breach $breach) use ($dataClass): ?\DateTimeInterface {
+                if (!\in_array($dataClass, $breach->getDataClasses())) {
+                    return $carry;
+                }
+
+                if ($breach->getBreachDate() > $carry) {
+                    return $breach->getBreachDate();
+                }
+
+                return $carry;
+            },
+            null
+        );
+    }
+
+    public function isDataClassBreached(string $account, string $dataClass, bool $unverified = true): bool
+    {
+        return $this->lastDataClassBreachDate($account, $dataClass, $unverified) !== null;
+    }
 }
