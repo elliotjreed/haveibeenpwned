@@ -108,5 +108,17 @@ final class PastedAccountTest extends TestCase
         $this->assertNull($secondPaste->getTitle());
         $this->assertEquals(new DateTime('2013-03-28T16:51:10Z'), $secondPaste->getDate());
         $this->assertSame(30, $secondPaste->getEmailCount());
+
+        $this->assertSame([
+            'Source' => 'Pastebin',
+            'Id' => '8Q0BvKD8',
+            'Title' => 'syslog',
+            'Date' => $firstPaste->getDate()->format(DateTime::ATOM),
+            'EmailCount' => 139
+        ], $firstPaste->toArray());
+        $this->assertSame($firstPaste->toArray(), $firstPaste->jsonSerialize());
+        $this->assertJsonStringEqualsJsonString(\json_encode($firstPaste->toArray()), \json_encode($firstPaste));
+
+        $this->assertNull($secondPaste->toArray()['Title']);
     }
 }

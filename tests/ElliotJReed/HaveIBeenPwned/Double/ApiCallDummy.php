@@ -13,4 +13,14 @@ final class ApiCallDummy extends Api
     {
         return $this->queryBreachApi('/dummy-api-path');
     }
+
+    public function mockCallWithHeaders(array $headers): StreamInterface
+    {
+        return $this->queryBreachApi('/dummy-api-path', headers: $headers);
+    }
+
+    public function mockPostCall(array $body): StreamInterface
+    {
+        return $this->postToBreachApi('/dummy-api-path', $body);
+    }
 }

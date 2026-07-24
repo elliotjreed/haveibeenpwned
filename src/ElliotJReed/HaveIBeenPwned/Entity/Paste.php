@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace ElliotJReed\HaveIBeenPwned\Entity;
 
 use DateTime;
+use JsonSerializable;
 
-final class Paste
+final class Paste implements JsonSerializable
 {
     private string $source;
     private string $id;
@@ -72,5 +73,21 @@ final class Paste
         $this->emailCount = $emailCount;
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'Source' => $this->source,
+            'Id' => $this->id,
+            'Title' => $this->title,
+            'Date' => $this->date->format(DateTime::ATOM),
+            'EmailCount' => $this->emailCount
+        ];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

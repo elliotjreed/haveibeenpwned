@@ -29,10 +29,25 @@ abstract class Api
         $this->apiKey = $apiKey;
     }
 
-    protected function queryBreachApi(string $endPoint, string $baseUri = self::HIBP_BASE_URI): StreamInterface
+    protected function queryBreachApi(string $endPoint, string $baseUri = self::HIBP_BASE_URI, array $headers = []): StreamInterface
+    {
+        return $this->call('GET', $baseUri . $endPoint, $headers);
+    }
+
+    protected function postToBreachApi(string $endPoint, array $body, string $baseUri = self::HIBP_BASE_URI): StreamInterface
+    {
+        return $this->call('POST', $baseUri . $endPoint, [], $body);
+    }
+
+    protected function encodeUrl(string $input): string
+    {
+        return \rawurlencode(\strtolower(\trim($input)));
+    }
+
+    private function call(string $method, string $endPoint, array $headers, ?array $body = null): StreamInterface
     {
         try {
-            $response = $this->sendRequest($baseUri . $endPoint)->getBody();
+            $response = $this->sendRequest($method, $endPoint, $headers, $body)->getBody();
         } catch (RequestException $exception) {
             $this->handleRequestException($exception);
         } catch (GuzzleException $exception) {
@@ -42,50 +57,68 @@ abstract class Api
         return $response;
     }
 
-    protected function encodeUrl(string $input): string
+    private function sendRequest(string $method, string $endPoint, array $headers, ?array $body): ResponseInterface
     {
-        return \rawurlencode(\strtolower(\trim($input)));
-    }
+        $options = [
+            'headers' => \array_merge([
+                'hibp-api-key' => $this->apiKey,
+                'user-agent' => 'hibp-php'
+            ], $headers)
+        ];
 
-    private function sendRequest(string $endPoint): ResponseInterface
-    {
-        $response = $this->client->request('GET', $endPoint, ['headers' => [
-            'hibp-api-key' => $this->apiKey,
-            'user-agent' => 'hibp-php'
-        ]]);
+        if (null !== $body) {
+            $options['json'] = $body;
+        }
+
+        $response = $this->client->request($method, $endPoint, $options);
         $statusCode = $response->getStatusCode();
         if (200 !== $statusCode) {
-            $this->handleNotOkResponse($statusCode);
+            $this->handleNotOkResponse($response);
         }
 
         return $response;
     }
 
-    private function handleNotOkResponse(int $statusCode): void
+    private function handleNotOkResponse(ResponseInterface $response): never
     {
-        switch ($statusCode) {
+        $detail = $this->parseErrorDetail($response);
+
+        switch ($response->getStatusCode()) {
             case 400:
-                throw new BadRequest();
+                throw new BadRequest($detail);
             case 401:
-                throw new Unauthorised();
+                throw new Unauthorised($detail);
             case 403:
-                throw new Forbidden();
+                throw new Forbidden($detail);
             case 404:
-                throw new NotFound();
+                throw new NotFound($detail);
             case 429:
-                throw new TooManyRequests();
+                throw new TooManyRequests($this->parseRetryAfter($response));
             case 503:
-                throw new ServiceUnavailable();
+                throw new ServiceUnavailable($detail);
             default:
-                throw new UnknownServerError((string) $statusCode);
+                throw new UnknownServerError((string) $response->getStatusCode());
         }
     }
 
-    protected function handleRequestException(RequestException $exception): void
+    private function parseErrorDetail(ResponseInterface $response): ?string
+    {
+        $decoded = \json_decode((string) $response->getBody(), true);
+
+        return \is_array($decoded) && \is_string($decoded['message'] ?? null) ? $decoded['message'] : null;
+    }
+
+    private function parseRetryAfter(ResponseInterface $response): ?int
+    {
+        $retryAfter = $response->getHeaderLine('retry-after');
+
+        return '' === $retryAfter ? null : (int) $retryAfter;
+    }
+
+    protected function handleRequestException(RequestException $exception): never
     {
         if ($exception->hasResponse()) {
-            $statusCode = $exception->getResponse()->getStatusCode();
-            $this->handleNotOkResponse($statusCode);
+            $this->handleNotOkResponse($exception->getResponse());
         }
 
         throw new UnknownServerError($exception->getMessage(), (int) $exception->getCode(), $exception->getPrevious());

@@ -80,6 +80,10 @@ final class BreachedAccountTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png"
             },
             {
@@ -100,6 +104,10 @@ final class BreachedAccountTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":true,
+              "IsSubscriptionFree":true,
+              "IsStealerLog":true,
+              "Attribution":"Data provided by a third party",
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/BattlefieldHeroes.png"
             }
           ]
@@ -137,7 +145,35 @@ final class BreachedAccountTest extends TestCase
         $this->assertFalse($firstBreach->isSensitive());
         $this->assertFalse($firstBreach->isRetired());
         $this->assertFalse($firstBreach->IsSpamList());
+        $this->assertFalse($firstBreach->isMalware());
+        $this->assertFalse($firstBreach->isSubscriptionFree());
+        $this->assertFalse($firstBreach->isStealerLog());
+        $this->assertNull($firstBreach->getAttribution());
         $this->assertSame('https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png', $firstBreach->getLogoPath());
+
+        $this->assertSame([
+            'Name' => 'Adobe',
+            'Title' => 'Adobe',
+            'Domain' => 'adobe.com',
+            'BreachDate' => '2013-10-04',
+            'AddedDate' => $firstBreach->getAddedDate()->format(DateTime::ATOM),
+            'ModifiedDate' => $firstBreach->getModifiedDate()->format(DateTime::ATOM),
+            'PwnCount' => 152445165,
+            'Description' => 'In October 2013...',
+            'DataClasses' => ['Email addresses', 'Password hints', 'Passwords', 'Usernames'],
+            'IsVerified' => true,
+            'IsFabricated' => false,
+            'IsSensitive' => false,
+            'IsRetired' => false,
+            'IsSpamList' => false,
+            'IsMalware' => false,
+            'IsSubscriptionFree' => false,
+            'IsStealerLog' => false,
+            'LogoPath' => 'https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png',
+            'Attribution' => null
+        ], $firstBreach->toArray());
+        $this->assertSame($firstBreach->toArray(), $firstBreach->jsonSerialize());
+        $this->assertJsonStringEqualsJsonString(\json_encode($firstBreach->toArray()), \json_encode($firstBreach));
 
         $secondBreach = $breaches[1];
         $this->assertSame('BattlefieldHeroes', $secondBreach->getName());
@@ -154,6 +190,10 @@ final class BreachedAccountTest extends TestCase
         $this->assertFalse($secondBreach->isSensitive());
         $this->assertFalse($secondBreach->isRetired());
         $this->assertFalse($secondBreach->IsSpamList());
+        $this->assertTrue($secondBreach->isMalware());
+        $this->assertTrue($secondBreach->isSubscriptionFree());
+        $this->assertTrue($secondBreach->isStealerLog());
+        $this->assertSame('Data provided by a third party', $secondBreach->getAttribution());
         $this->assertSame('https://haveibeenpwned.com/Content/Images/PwnedLogos/BattlefieldHeroes.png', $secondBreach->getLogoPath());
     }
 
@@ -172,8 +212,8 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
         $this->assertSame('/api/v3/breachedaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
-        $this->assertSame('truncateResponse=false&?includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=false&?includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('truncateResponse=false&includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=false&includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
         $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
     }
@@ -202,6 +242,10 @@ final class BreachedAccountTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png"
             }
           ]
@@ -219,8 +263,8 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
         $this->assertSame('/api/v3/breachedaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
-        $this->assertSame('truncateResponse=false&?includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=false&?includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('truncateResponse=false&includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=false&includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
         $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
@@ -331,8 +375,8 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
         $this->assertSame('/api/v3/breachedaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
-        $this->assertSame('truncateResponse=false&?includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=false&?includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('truncateResponse=false&includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=false&includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
         $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
     }
@@ -351,8 +395,8 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
         $this->assertSame('/api/v3/breachedaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
-        $this->assertSame('truncateResponse=true&?includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=true&?includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('truncateResponse=true&includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=true&includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
         $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
@@ -381,8 +425,8 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
         $this->assertSame('/api/v3/breachedaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
-        $this->assertSame('truncateResponse=true&?includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=true&?includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('truncateResponse=true&includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=true&includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
         $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
@@ -455,6 +499,10 @@ final class BreachedAccountTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png"
             },
             {
@@ -475,6 +523,10 @@ final class BreachedAccountTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/BattlefieldHeroes.png"
             }
           ]
@@ -515,8 +567,8 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
         $this->assertSame('/api/v3/breachedaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
-        $this->assertSame('truncateResponse=true&?includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=true&?includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('truncateResponse=true&includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=true&includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
         $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
     }
@@ -545,6 +597,10 @@ final class BreachedAccountTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png"
             },
             {
@@ -565,6 +621,10 @@ final class BreachedAccountTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/BattlefieldHeroes.png"
             }
           ]
@@ -582,11 +642,137 @@ final class BreachedAccountTest extends TestCase
         $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
         $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
         $this->assertSame('/api/v3/breachedaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
-        $this->assertSame('truncateResponse=true&?includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
-        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=true&?includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
+        $this->assertSame('truncateResponse=true&includeUnverified=false', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame('/api/v3/breachedaccount/email%40example.com?truncateResponse=true&includeUnverified=false', $mock->getLastRequest()->getRequestTarget());
         $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
         $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
 
         $this->assertSame(2, $breachCount);
+    }
+
+    public function testItReturnsBreachesForEmailAddressFilteredByDomain(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new BreachedAccount($client, 'fake-hibn-api-key'))->breaches('email@example.com', domain: 'adobe.com');
+        $this->assertSame([], $breaches);
+
+        $this->assertSame('/api/v3/breachedaccount/email%40example.com', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('truncateResponse=false&domain=adobe.com', $mock->getLastRequest()->getUri()->getQuery());
+    }
+
+    public function testItReturnsBreachNamesForEmailAddressFilteredByDomain(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new BreachedAccount($client, 'fake-hibn-api-key'))->breachNames('email@example.com', domain: 'adobe.com');
+        $this->assertSame([], $breaches);
+
+        $this->assertSame('truncateResponse=true&domain=adobe.com', $mock->getLastRequest()->getUri()->getQuery());
+    }
+
+    public function testItReturnsCountForEmailAddressFilteredByDomainAndExcludingUnverified(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $count = (new BreachedAccount($client, 'fake-hibn-api-key'))->count('email@example.com', false, 'adobe.com');
+        $this->assertSame(0, $count);
+
+        $this->assertSame('truncateResponse=true&includeUnverified=false&domain=adobe.com', $mock->getLastRequest()->getUri()->getQuery());
+    }
+
+    public function testItReturnsTrueWhenEmailAddressIsBreached(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], '[{"Name":"Adobe"}]')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $this->assertTrue((new BreachedAccount($client, 'fake-hibn-api-key'))->isBreached('email@example.com'));
+    }
+
+    public function testItReturnsFalseWhenEmailAddressIsNotBreached(): void
+    {
+        $mock = new MockHandler([
+            new Response(404, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $this->assertFalse((new BreachedAccount($client, 'fake-hibn-api-key'))->isBreached('email@example.com'));
+    }
+
+    public function testItReturnsBreachNamesForHashRangeMatch(): void
+    {
+        $response = '
+          [
+            {
+              "hashSuffix": "8394D4568DF3C54C2645DDB1D0753A0C20",
+              "websites": ["Adobe", "Gawker", "Stratfor"]
+            },
+            {
+              "hashSuffix": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+              "websites": ["SomeOtherBreach"]
+            }
+          ]
+        ';
+
+        $mock = new MockHandler([
+            new Response(200, [], $response)
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new BreachedAccount($client, 'fake-hibn-api-key'))->breachNamesByHashRange('email@example.com');
+
+        $this->assertSame('GET', $mock->getLastRequest()->getMethod());
+        $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
+        $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
+        $this->assertSame('/api/v3/breachedaccount/range/939598', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
+
+        $this->assertSame(['Adobe', 'Gawker', 'Stratfor'], $breaches);
+    }
+
+    public function testItReturnsEmptyArrayWhenNoHashSuffixMatchesInRange(): void
+    {
+        $response = '[{"hashSuffix":"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF","websites":["SomeOtherBreach"]}]';
+
+        $mock = new MockHandler([
+            new Response(200, [], $response)
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new BreachedAccount($client, 'fake-hibn-api-key'))->breachNamesByHashRange('email@example.com');
+
+        $this->assertSame([], $breaches);
+    }
+
+    public function testItReturnsEmptyArrayWhenHashRangeResponseIsEmpty(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new BreachedAccount($client, 'fake-hibn-api-key'))->breachNamesByHashRange('email@example.com');
+
+        $this->assertSame([], $breaches);
     }
 }

@@ -66,4 +66,86 @@ final class PasswordTest extends TestCase
 
         $this->assertSame(121251, $breaches);
     }
+
+    public function testItReturnsCountOfBreachesUsingNtlmMode(): void
+    {
+        $responseBody = '9038C4B75EBC76DC855DD74F0DB:1' . "\r\n" .
+            'A038C4B75EBC76DC855DD74F0DA:16' . "\r\n" .
+            'B038C4B75EBC76DC855DD74F0DC:2';
+        $mock = new MockHandler([
+            new Response(200, [], $responseBody)
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $count = (new Password($client, 'fake-hibn-api-key'))->count('password123', ntlm: true);
+
+        $this->assertSame('/range/A9FDF', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('mode=ntlm', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame(16, $count);
+    }
+
+    public function testItReturnsZeroForNtlmModeWhenHashIsNotFound(): void
+    {
+        $responseBody = '9038C4B75EBC76DC855DD74F0DB:1';
+        $mock = new MockHandler([
+            new Response(200, [], $responseBody)
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $count = (new Password($client, 'fake-hibn-api-key'))->count('password123', ntlm: true);
+
+        $this->assertSame(0, $count);
+    }
+
+    public function testItSendsAddPaddingHeaderWhenRequested(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], 'CBFDAC372B76E644DB604547D:121251')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        (new Password($client, 'fake-hibn-api-key'))->count('password123', addPadding: true);
+
+        $this->assertSame(['true'], $mock->getLastRequest()->getHeaders()['Add-Padding']);
+    }
+
+    public function testItDoesNotSendAddPaddingHeaderByDefault(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], 'CBFDAC372B76E644DB604547D:121251')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        (new Password($client, 'fake-hibn-api-key'))->count('password123');
+
+        $this->assertArrayNotHasKey('Add-Padding', $mock->getLastRequest()->getHeaders());
+    }
+
+    public function testItReturnsTrueWhenPasswordIsPwned(): void
+    {
+        $responseBody = 'C6008F9CAB4083784CBD1874F76618D2A97:121251';
+        $mock = new MockHandler([
+            new Response(200, [], $responseBody)
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $this->assertTrue((new Password($client, 'fake-hibn-api-key'))->isPwned('password123'));
+    }
+
+    public function testItReturnsFalseWhenPasswordIsNotPwned(): void
+    {
+        $responseBody = '00CADBF0C837E81197E29D51600DD960581:1';
+        $mock = new MockHandler([
+            new Response(200, [], $responseBody)
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $this->assertFalse((new Password($client, 'fake-hibn-api-key'))->isPwned('a-really-really-secure-correct-horse-battery-staple'));
+    }
 }

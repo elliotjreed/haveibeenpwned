@@ -8,3 +8,5 @@ infection.log
 /composer.lock
 .php-cs-fixer.cache
 .phpunit.cache
+# Manual smoke-test script -- holds a live API key, never commit it
+/test.php

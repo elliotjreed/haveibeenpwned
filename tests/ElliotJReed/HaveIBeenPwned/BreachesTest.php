@@ -82,6 +82,10 @@ final class BreachesTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png"
             },
             {
@@ -102,6 +106,10 @@ final class BreachesTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/BattlefieldHeroes.png"
             }
           ]
@@ -227,6 +235,10 @@ final class BreachesTest extends TestCase
               "IsSensitive":false,
               "IsRetired":false,
               "IsSpamList":false,
+              "IsMalware":false,
+              "IsSubscriptionFree":false,
+              "IsStealerLog":false,
+              "Attribution":null,
               "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png"
             }
           ]
@@ -333,6 +345,10 @@ final class BreachesTest extends TestCase
             "IsSensitive":false,
             "IsRetired":false,
             "IsSpamList":false,
+            "IsMalware":false,
+            "IsSubscriptionFree":false,
+            "IsStealerLog":false,
+            "Attribution":null,
             "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png"
           }
         ';
@@ -369,5 +385,111 @@ final class BreachesTest extends TestCase
         $this->assertFalse($breach->isRetired());
         $this->assertFalse($breach->IsSpamList());
         $this->assertSame('https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png', $breach->getLogoPath());
+    }
+
+    public function testItFiltersAllBreachesByIsSpamListTrue(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->allSources(true);
+
+        $this->assertSame('/api/v3/breaches', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('IsSpamList=true', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame([], $breaches);
+    }
+
+    public function testItFiltersAllBreachesByIsSpamListFalse(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breaches = (new Breaches($client, 'fake-hibn-api-key'))->allSources(false);
+
+        $this->assertSame('IsSpamList=false', $mock->getLastRequest()->getUri()->getQuery());
+        $this->assertSame([], $breaches);
+    }
+
+    public function testItReturnsNullIfThereIsNoLatestBreach(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->latest();
+
+        $this->assertSame('GET', $mock->getLastRequest()->getMethod());
+        $this->assertSame('https', $mock->getLastRequest()->getUri()->getScheme());
+        $this->assertSame('haveibeenpwned.com', $mock->getLastRequest()->getUri()->getHost());
+        $this->assertSame('/api/v3/latestbreach', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame(['fake-hibn-api-key'], $mock->getLastRequest()->getHeaders()['hibp-api-key']);
+        $this->assertSame(['hibp-php'], $mock->getLastRequest()->getHeaders()['user-agent']);
+
+        $this->assertNull($breach);
+    }
+
+    public function testItReturnsNullIfFourHundredAndFourResponseForLatestBreach(): void
+    {
+        $mock = new MockHandler([
+            new Response(404, [], '')
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->latest();
+
+        $this->assertNull($breach);
+    }
+
+    public function testItGetsLatestBreach(): void
+    {
+        $response = '
+          {
+            "Name":"Adobe",
+            "Title":"Adobe",
+            "Domain":"adobe.com",
+            "BreachDate":"2013-10-04",
+            "AddedDate":"2013-12-04T00:00Z",
+            "ModifiedDate":"2013-12-04T00:00Z",
+            "PwnCount":152445165,
+            "Description":"In October 2013...",
+            "DataClasses":[
+              "Email addresses",
+              "Password hints",
+              "Passwords",
+              "Usernames"
+            ],
+            "IsVerified":true,
+            "IsFabricated":false,
+            "IsSensitive":false,
+            "IsRetired":false,
+            "IsSpamList":false,
+            "IsMalware":false,
+            "IsSubscriptionFree":false,
+            "IsStealerLog":false,
+            "Attribution":null,
+            "LogoPath":"https://haveibeenpwned.com/Content/Images/PwnedLogos/Adobe.png"
+          }
+        ';
+
+        $mock = new MockHandler([
+            new Response(200, [], $response)
+        ]);
+
+        $client = new Client(['handler' => HandlerStack::create($mock)]);
+
+        $breach = (new Breaches($client, 'fake-hibn-api-key'))->latest();
+
+        $this->assertSame('/api/v3/latestbreach', $mock->getLastRequest()->getUri()->getPath());
+        $this->assertSame('Adobe', $breach->getName());
+        $this->assertSame('adobe.com', $breach->getDomain());
     }
 }

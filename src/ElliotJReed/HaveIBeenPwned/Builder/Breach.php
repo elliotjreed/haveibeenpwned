@@ -26,6 +26,10 @@ final class Breach
             ->setIsSensitive($breach['IsSensitive'])
             ->setIsRetired($breach['IsRetired'])
             ->setIsSpamList($breach['IsSpamList'])
-            ->setLogoPath($breach['LogoPath']);
+            ->setIsMalware($breach['IsMalware'])
+            ->setIsSubscriptionFree($breach['IsSubscriptionFree'])
+            ->setIsStealerLog($breach['IsStealerLog'])
+            ->setLogoPath($breach['LogoPath'])
+            ->setAttribution($breach['Attribution'] ?? null);
     }
 }

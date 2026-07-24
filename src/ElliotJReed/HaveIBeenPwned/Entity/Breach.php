@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace ElliotJReed\HaveIBeenPwned\Entity;
 
 use DateTime;
+use JsonSerializable;
 
-final class Breach
+final class Breach implements JsonSerializable
 {
     private string $name;
     private string $title;
@@ -22,7 +23,11 @@ final class Breach
     private bool $isSensitive;
     private bool $isRetired;
     private bool $isSpamList;
+    private bool $isMalware;
+    private bool $isSubscriptionFree;
+    private bool $isStealerLog;
     private string $logoPath;
+    private ?string $attribution = null;
 
     public function getName(): string
     {
@@ -192,6 +197,42 @@ final class Breach
         return $this;
     }
 
+    public function isMalware(): bool
+    {
+        return $this->isMalware;
+    }
+
+    public function setIsMalware(bool $isMalware): self
+    {
+        $this->isMalware = $isMalware;
+
+        return $this;
+    }
+
+    public function isSubscriptionFree(): bool
+    {
+        return $this->isSubscriptionFree;
+    }
+
+    public function setIsSubscriptionFree(bool $isSubscriptionFree): self
+    {
+        $this->isSubscriptionFree = $isSubscriptionFree;
+
+        return $this;
+    }
+
+    public function isStealerLog(): bool
+    {
+        return $this->isStealerLog;
+    }
+
+    public function setIsStealerLog(bool $isStealerLog): self
+    {
+        $this->isStealerLog = $isStealerLog;
+
+        return $this;
+    }
+
     public function getLogoPath(): string
     {
         return $this->logoPath;
@@ -202,5 +243,47 @@ final class Breach
         $this->logoPath = $logoPath;
 
         return $this;
+    }
+
+    public function getAttribution(): ?string
+    {
+        return $this->attribution;
+    }
+
+    public function setAttribution(?string $attribution): self
+    {
+        $this->attribution = $attribution;
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'Name' => $this->name,
+            'Title' => $this->title,
+            'Domain' => $this->domain,
+            'BreachDate' => $this->breachDate->format('Y-m-d'),
+            'AddedDate' => $this->addedDate->format(DateTime::ATOM),
+            'ModifiedDate' => $this->modifiedDate->format(DateTime::ATOM),
+            'PwnCount' => $this->pwnCount,
+            'Description' => $this->description,
+            'DataClasses' => $this->dataClasses,
+            'IsVerified' => $this->isVerified,
+            'IsFabricated' => $this->isFabricated,
+            'IsSensitive' => $this->isSensitive,
+            'IsRetired' => $this->isRetired,
+            'IsSpamList' => $this->isSpamList,
+            'IsMalware' => $this->isMalware,
+            'IsSubscriptionFree' => $this->isSubscriptionFree,
+            'IsStealerLog' => $this->isStealerLog,
+            'LogoPath' => $this->logoPath,
+            'Attribution' => $this->attribution
+        ];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

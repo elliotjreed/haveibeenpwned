@@ -10,11 +10,13 @@ use ElliotJReed\HaveIBeenPwned\Exception\NotFound;
 
 class Breaches extends Api
 {
-    public function allSources(): array
+    public function allSources(?bool $isSpamList = null): array
     {
+        $queryString = null === $isSpamList ? '' : '?IsSpamList=' . ($isSpamList ? 'true' : 'false');
+
         $breaches = [];
         try {
-            $body = $this->queryBreachApi('/breaches');
+            $body = $this->queryBreachApi('/breaches' . $queryString);
             $length = $body->getSize();
 
             if ($length > 0) {
@@ -26,6 +28,21 @@ class Breaches extends Api
         }
 
         return $breaches;
+    }
+
+    public function latest(): ?BreachEntity
+    {
+        try {
+            $body = $this->queryBreachApi('/latestbreach');
+            $length = $body->getSize();
+
+            if ($length > 0) {
+                return Breach::build(\json_decode($body->read($length), true, 512, \JSON_THROW_ON_ERROR));
+            }
+        } catch (NotFound $exception) {
+        }
+
+        return null;
     }
 
     public function byDomain(string $domain): array
