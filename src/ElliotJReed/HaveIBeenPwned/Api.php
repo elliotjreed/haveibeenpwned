@@ -12,6 +12,7 @@ use ElliotJReed\HaveIBeenPwned\Exception\TooManyRequests;
 use ElliotJReed\HaveIBeenPwned\Exception\Unauthorised;
 use ElliotJReed\HaveIBeenPwned\Exception\UnknownServerError;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
@@ -117,7 +118,7 @@ abstract class Api
 
     protected function handleRequestException(RequestException $exception): never
     {
-        if ($exception->hasResponse()) {
+        if ($exception instanceof BadResponseException) {
             $this->handleNotOkResponse($exception->getResponse());
         }
 

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). The installable package version is determined entirely by the [Git tags](https://github.com/elliotjreed/haveibeenpwned/tags) on this repository - there is no `version` field in `composer.json`.
 
+## [4.1.0] - 2026-08-05
+
+Fixes `Api::handleRequestException()` for compatibility with Guzzle 8, where `RequestException::hasResponse()` and the nullable `getResponse()` were removed from the base exception class. Detection now uses `instanceof BadResponseException`, which reliably carries a response on both Guzzle 7 and 8.
+
 ## [4.0.1] - 2026-07-24
 
 Fixes coverage check in GitHub Actions.

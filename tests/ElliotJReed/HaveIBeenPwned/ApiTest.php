@@ -12,8 +12,8 @@ use ElliotJReed\HaveIBeenPwned\Exception\TooManyRequests;
 use ElliotJReed\HaveIBeenPwned\Exception\Unauthorised;
 use ElliotJReed\HaveIBeenPwned\Exception\UnknownServerError;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
@@ -311,7 +311,7 @@ final class ApiTest extends TestCase
     public function testItThrowsNotFoundExceptionIfStatusIsNotDefinedByHibpAndHasNoResponseBody(): void
     {
         $mock = new MockHandler([
-            new RequestException('no body', new Request('GET', 'https://example.com'), null)
+            new RequestException('no body', new Request('GET', 'https://example.com'))
         ]);
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
@@ -325,7 +325,7 @@ final class ApiTest extends TestCase
     public function testItThrowsNotFoundExceptionIfStatusIsNotDefinedByHibpAndHttpClientHasNoResponse(): void
     {
         $mock = new MockHandler([
-            new TransferException()
+            new ConnectException('', new Request('GET', 'https://example.com'))
         ]);
 
         $client = new Client(['handler' => HandlerStack::create($mock)]);
@@ -437,7 +437,7 @@ final class ApiTest extends TestCase
     public function testItThrowsNotFoundExceptionIfGuzzleHttpErrorsAreSetToFalseAndStatusIsNotDefinedByHibpAndHttpClientHasNoResponse(): void
     {
         $mock = new MockHandler([
-            new TransferException()
+            new ConnectException('', new Request('GET', 'https://example.com'))
         ]);
 
         $client = new Client(['http_errors' => false, 'handler' => HandlerStack::create($mock)]);
